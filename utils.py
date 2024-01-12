@@ -7,16 +7,19 @@ import pandas as pd
 import zipfile
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import base64
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from requests import HTTPError
 
 
-
+dir_path = os.getcwd()
 def unzip_csv(file):
     zf = zipfile.ZipFile(file)
     csv_file_name = zf.namelist()[0]
     final_csv_data = zf.open(csv_file_name)
     return final_csv_data
 
-dir_path = os.getcwd()
 
 def saveList(myList,filename):
     # the filename should mention the extension 'npy'
@@ -24,35 +27,40 @@ def saveList(myList,filename):
     print("Saved successfully!")
 
 
+def send_email(to_email, subject, body_text, 
+               key_file='./creds/client_secret_666583415973-8mq7km9sssfb17o73jslgjuknc3nm6gt.apps.googleusercontent.com.json'):
+    SCOPES = [
+            "https://www.googleapis.com/auth/gmail.send"
+        ]
+    # flow = InstalledAppFlow.from_client_secrets_file(key_file, SCOPES)
+    # creds = flow.run_local_server(port=0)
+    flow = client.flow_from_clientsecrets(key_file, SCOPES)
+    credentials = tools.run_flow(flow, store)
+    service = build('gmail', 'v1', credentials=creds)
+    message = MIMEText(body_text)
+    message['to'] = to_email
+    message['subject'] = subject
+    create_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
 
-import smtplib
-def send_email(from_email, from_email_pass, to_email, subject, body_text):
-    #Ports 465 and 587 are intended for email client to email server communication - sending email
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    #starttls() is a way to take an existing insecure connection and upgrade it to a secure connection using SSL/TLS.
-    server.starttls()
-    #Next, log in to the server
-    server.login(from_email, from_email_pass)
-    msg = MIMEMultipart()
-    msg["Subject"] = subject
-    body = MIMEText(body_text)
-    msg["From"] = from_email
-    msg["To"] = to_email
-    msg.attach(body)
-    server.sendmail(msg["From"], msg["To"],msg.as_string())
-
-#Send the mail
+    #Send the mail
+    try:
+        message = (service.users().messages().send(userId="me", body=create_message).execute())
+        print(F'sent message to {message} Message Id: {message["id"]}')
+    except HTTPError as error:
+        print(F'An error occurred: {error}')
+        message = None
+    
 
 
-def get_sheet(spreadsheet:str='PLanalysis', sheet_num:int=0):
+def get_sheet(spreadsheet:str='PLanalysis', sheet_num:int=0, 
+              key_file='./creds/damascus-sheets-2f25da97abd2.json'):
     #Authorizing the API
-    scope = [
+    SCOPES = [
         'https://www.googleapis.com/auth/drive',
         'https://www.googleapis.com/auth/drive.file',
         'https://spreadsheets.google.com/feeds'
         ]
-    key_file = './creds/damascus-sheets-23cd6fa46f09.json'
-    creds = ServiceAccountCredentials.from_json_keyfile_name(key_file,scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(key_file,SCOPES)
     client = gspread.authorize(creds)
     worksheet = client.open(spreadsheet)
     uploadparms_sheet = worksheet.get_worksheet(sheet_num)

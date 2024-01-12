@@ -58,38 +58,40 @@ class Trade_Summary:
 
 
     def run(self):
-        today_date = datetime.today().date()                               #today's date
-        time_now = datetime.now(pytz.timezone('Asia/Kolkata')).time()      #time now
+        today_date = datetime.today().date().strftime('%d-%m-%Y')                               #today's date
+        time_now = datetime.now(pytz.timezone('Asia/Kolkata')).time().strftime('%H:%M:%S')      #time now
         
-        # try:
-        pl_sheet, pl_df, details_sheet, details_df, data_sheet, data_df = self.__load_sheets()
-        data_df = self.__cleaning(data_df)
-        result_df = data_df[(data_df['Date'] >= start_date) & (data_df['Date'] <= end_date)].copy()
-        result_df = result_df[result_df.Segment=='EQ'].groupby(['Company', 'Side', 'Date']).agg({'Amount': 'sum', 'Quantity': 'sum', 'Price': 'mean'})
-        result_df = result_df.reset_index()
-        result_df = result_df.sort_values(by=['Company', 'Date'], ascending=[True, False])
+        try:
+            asd
+            pl_sheet, pl_df, details_sheet, details_df, data_sheet, data_df = self.__load_sheets()
+            data_df = self.__cleaning(data_df)
+            result_df = data_df[(data_df['Date'] >= start_date) & (data_df['Date'] <= end_date)].copy()
+            result_df = result_df[result_df.Segment=='EQ'].groupby(['Company', 'Side', 'Date']).agg({'Amount': 'sum', 'Quantity': 'sum', 'Price': 'mean'})
+            result_df = result_df.reset_index()
+            result_df = result_df.sort_values(by=['Company', 'Date'], ascending=[True, False])
 
-        # updating details sheet
-        temp_df = result_df.copy().astype(str)
-        details_sheet.update([temp_df.columns.values.tolist()] + temp_df.values.tolist())
+            # updating details sheet
+            temp_df = result_df.copy().astype(str)
+            details_sheet.update([temp_df.columns.values.tolist()] + temp_df.values.tolist())
 
-        #filtering data
-        result_df = self.__filter_data(result_df)
-        net_p = result_df.Revenue.sum()
-        data_id = data_sheet.title
-        row = [str(data_id), str(today_date), str(time_now), str(net_p)]
-        # updating pl_logs
-        pl_df = pl_df.astype(str)
-        pl_sheet.update([pl_df.columns.values.tolist()] + [row] + pl_df.values.tolist())
+            #filtering data
+            result_df = self.__filter_data(result_df)
+            net_p = result_df.Revenue.sum()
+            data_id = data_sheet.title
+            row = [str(data_id), str(today_date), str(time_now), str(net_p)]
+            # updating pl_logs
+            pl_df = pl_df.astype(stre)
+            pl_sheet.update([pl_df.columns.values.tolist()] + [row] + pl_df.values.tolist())
         
-        # except Exception as e:
-        #     # send_email(from_email=self.from_email,                   #send an email if there is an error in updating
-        #     #             from_email_pass=self.from_email_password,
-        #     #             to_email=self.to_email,
-        #     #             subject='Error in Uploading file(s)', 
-        #     #             body_text=f'There was an error in updating the analysis : \n{e}')
-        #     print('--Error--\n')
-        #     print(e)
+        except Exception as e:
+            # send an email if there is an error in updating
+            send_email(
+                to_email=self.to_email,
+                subject='Error in Updating Data', 
+                body_text=f'There was an error in updating the analysis : \n{e}'
+                )
+            print('--Error--\n')
+            print(e)
 
 
 if __name__ == '__main__':
@@ -101,11 +103,16 @@ if __name__ == '__main__':
         type=int,
         default=30
     )
-    
+    args = parser.parse_args()
+    days = args.days
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=30)
+    start_date = end_date - timedelta(days=days)
     print(start_date.date(), end_date.date())
-    trs = Trade_Summary(start_date=start_date,
-                        end_date=end_date,
-                        config=config)
+    trs = Trade_Summary(
+        start_date=start_date,
+        end_date=end_date,
+        config=config
+        )
+    print('Running...')
     trs.run()
+    print('Done.')
