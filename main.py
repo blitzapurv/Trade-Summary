@@ -62,7 +62,6 @@ class Trade_Summary:
         time_now = datetime.now(pytz.timezone('Asia/Kolkata')).time().strftime('%H:%M:%S')      #time now
         
         try:
-            asd
             pl_sheet, pl_df, details_sheet, details_df, data_sheet, data_df = self.__load_sheets()
             data_df = self.__cleaning(data_df)
             result_df = data_df[(data_df['Date'] >= start_date) & (data_df['Date'] <= end_date)].copy()

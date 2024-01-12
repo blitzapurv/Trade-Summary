@@ -32,10 +32,9 @@ def send_email(to_email, subject, body_text,
     SCOPES = [
             "https://www.googleapis.com/auth/gmail.send"
         ]
-    # flow = InstalledAppFlow.from_client_secrets_file(key_file, SCOPES)
-    # creds = flow.run_local_server(port=0)
-    flow = client.flow_from_clientsecrets(key_file, SCOPES)
-    credentials = tools.run_flow(flow, store)
+    flow = InstalledAppFlow.from_client_secrets_file(key_file, SCOPES)
+    creds = flow.run_local_server(port=0)
+
     service = build('gmail', 'v1', credentials=creds)
     message = MIMEText(body_text)
     message['to'] = to_email
