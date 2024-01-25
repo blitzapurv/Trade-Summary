@@ -1,5 +1,5 @@
-creds/
-logs/
-__pycache__/
+creds/*
+logs/*
+__pycache__/*
 *~
 .vscode
