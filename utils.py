@@ -11,6 +11,11 @@ import base64
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from requests import HTTPError
+import configparser
+
+
+config = configparser.ConfigParser()
+config.read('variables.ini')
 
 
 dir_path = os.getcwd()
@@ -28,7 +33,7 @@ def saveList(myList,filename):
 
 
 def send_email(to_email, subject, body_text, 
-               key_file='./creds/client_secret_666583415973-8mq7km9sssfb17o73jslgjuknc3nm6gt.apps.googleusercontent.com.json'):
+               key_file=config['Default']['email_auth_key']):
     SCOPES = [
             "https://www.googleapis.com/auth/gmail.send"
         ]
@@ -52,7 +57,7 @@ def send_email(to_email, subject, body_text,
 
 
 def get_sheet(spreadsheet:str='PLanalysis', sheet_num:int=0, 
-              key_file='./creds/damascus-sheets-2f25da97abd2.json'):
+              key_file=config['Default']['service_key']):
     #Authorizing the API
     SCOPES = [
         'https://www.googleapis.com/auth/drive',
