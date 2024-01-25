@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "damascus-sheets",
+  "private_key_id": "2f25da97abd209211d526472775cd419c1a53b05",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDG1TmEMPzQtKIa\noTcph6F6Xke03XfKMTEAAff5gWM/5j8Rq0LOtcqZDVFYG2LBeF8geULPAMZ6g3qe\npoIbPm6cj6dy6Vtcglq3oEFa2zQKrfB5m25Qdki9nihAqdviCEJI+snZv3WNDgOe\nrNJcJ5ScBErPAKe5fCE7Pl+v+qyCVCeesKeuvrz256pMIjYhIakXQrNOgLzjSH8y\n9PHI2Yj3qpoGIUqgwRW/oxfsC9Z/MyvpWiYVORkTJBQAtjVakRyJL5zmHlzvE+09\nNX9GVl43JErIjvkjJZxj507mHRcitcyGsxkG+t3PwB+8SHrMpXiDoedB/gM5SP0L\nskr5o63LAgMBAAECggEAHGdFSh79XosPRSKWkLYxWRuyvqGMhTO1vjyJwfi7xtsL\nU2jVqFXL1UVTw3RWDTE21Zq88nk34TR7BcLffyjSAEd9Misnw/VTJDweWe5KZuQm\nIBkWDyR2i6/WLDaXlJh9b5Nz1klFb5r65WXmvwdgcVEjpqJ/Uz3qOV5VqPv0PMGs\nFI3jJbw53miqokJWnQva8vwaJ5F69HwOaroEMh2el2szL3esGlf2K39nagKF3Fvf\nJxR5ysha87XQRp+pbbWsbyq/pLzjFz4LOY8Dq29UOQ0BWjbvjpQCogW2J4o9zXTt\nmua1mCqFxJRdbK3KEKU+iZtnrdWZp3Ne5/DExUieAQKBgQD3PoYhwk/1hby+C/vL\nndq8cIq7BV+Pdd6Hbh0Ig34c2txhffRzYPAG+3JzODhfzyZaFe/a5rsU2ifXHxAE\nkJA0TWwy8B7W3AKgoDcbnPB2Y808Tg/ttcX6t0GBjWVWpEnxtIQWU462xA1ZJCeR\ngtPq8ifvH+gdciW5LpsRb74xSwKBgQDN38+/TYXsZQMUo/xkE4jFMoez7ucHT1yn\nWrwMmLVd3W0vi27cxb+nCSoqRPkJ4wcXM0uk1mJL3RYpLm85/nmaK0UBTMZ81Bbd\nYuhC4/9fa52mNSR8UahxxAuS54AYqTkS/dEmf5Ltz4lgPgW13l+MZYIHMYcQPh0F\nUWxpOeclgQKBgFAr2wypWIoxspEhi6Vr61i9WY7pYCJBw0XBA/MVyFgM8/c9A35C\nSbLJ6EPKUCVpI3OEt4EQ3ksVrmOINAZ25fu/uz0NNcLQFp4FNblje2m4VP2gBnQ7\nRBZXRAuBUQH2Re/1a/tdXuKO0hE8swPxG0yM9zwH6ZlawTa6ERhnVpHfAoGBAMex\nLWDhQGMhQ9C0k68653Jn5gtZUwzbJQNL1pXdVib7DdqNQ/avdYv/LsAbcPjvFsSh\nQ+Fa9bOiesltOgQl2yv4hpGROAKC8r7BHosrfly/FQbQC1jvGBVp1NQk6zKAilTq\nkAHowssbgKQy5PUZAtM67totZ1YQ+bNb3G1g9d2BAoGBAIeO+e+hOiX/tfmqkJba\ne7dF9or37B4D+LTWIMXfuKdcBiI4jeiW4/v4HY5CCpkczhrKUhNMhMmCfT9C//An\nTQFRXR6gmUS7NnvOMK3zr2Wcu6bYaAiacU3LcrWkFu0GYo7QLPHe5e/nUlYt0JDI\nwuquWpttUVy2AbB2PO6p53pQ\n-----END PRIVATE KEY-----\n",
+  "client_email": "spreadsheet-user@damascus-sheets.iam.gserviceaccount.com",
+  "client_id": "116004757409970590898",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spreadsheet-user%40damascus-sheets.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
