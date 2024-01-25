@@ -1,6 +1,5 @@
 creds/
 logs/
 __pycache__/
-*.so
 *~
 .vscode
