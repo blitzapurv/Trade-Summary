@@ -43,15 +43,15 @@ class Trade_Summary:
         result_df = result_df.loc[~(result_df.index.isin(min_dates) & (result_df['Side']=='Sell'))]
         # oldest order for each company
         max_dates = result_df.groupby('Company')['Date'].idxmax()
-        result_df = result_df.loc[~(result_df.index.isin(max_dates) & (result_df['Side']=='Buy'))]
+        result_df = result_df.loc[~(result_df.index.isin(max_dates) & (result_df.Side=='Buy'))]
 
         # companies with single record/row
         single_record = result_df.groupby('Company').size()[result_df.groupby('Company').size() < 2].index.to_list()
         result_df = result_df[~result_df.Company.isin(single_record)]
 
-        # companies with first sell order quantity greater than first buy order quantity
-        temp_df = result_df.groupby(['Company','Side'])['Quantity'].min().unstack()
-        result_df = result_df[~result_df.Company.isin(temp_df[temp_df['Buy'] < temp_df['Sell']].index.to_list())]
+        # # companies with first sell order quantity greater than first buy order quantity
+        # temp_df = result_df.groupby(['Company','Side'])['Quantity'].min().unstack()
+        # result_df = result_df[~result_df.Company.isin(temp_df[temp_df['Buy'] < temp_df['Sell']].index.to_list())]
 
         result_df['Revenue'] = result_df.apply(lambda x: -x['Amount'] if x['Side']=='Buy' else x['Amount'], axis=1)
         return result_df
@@ -63,14 +63,20 @@ class Trade_Summary:
         
         try:
             pl_sheet, pl_df, details_sheet, details_df, data_sheet, data_df = self.__load_sheets()
+            print(data_df.shape)
             data_df = self.__cleaning(data_df)
+            print(data_df.shape)
             result_df = data_df[(data_df['Date'] >= start_date) & (data_df['Date'] <= end_date)].copy()
             result_df = result_df[result_df.Segment=='EQ'].groupby(['Company', 'Side', 'Date']).agg({'Amount': 'sum', 'Quantity': 'sum', 'Price': 'mean'})
             result_df = result_df.reset_index()
             result_df = result_df.sort_values(by=['Company', 'Date'], ascending=[True, False])
+            print(result_df.shape)
 
             # updating details sheet
             temp_df = result_df.copy().astype(str)
+            print(temp_df.shape)
+            print(temp_df)
+            details_sheet.clear()
             details_sheet.update([temp_df.columns.values.tolist()] + temp_df.values.tolist())
 
             #filtering data
@@ -79,7 +85,7 @@ class Trade_Summary:
             data_id = data_sheet.title
             row = [str(data_id), str(today_date), str(time_now), str(net_p)]
             # updating pl_logs
-            pl_df = pl_df.astype(stre)
+            pl_df = pl_df.astype(str)
             pl_sheet.update([pl_df.columns.values.tolist()] + [row] + pl_df.values.tolist())
         
         except Exception as e:
