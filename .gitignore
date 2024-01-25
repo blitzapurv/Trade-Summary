@@ -1,5 +1,5 @@
-# creds/*
-# logs/*
-# __pycache__/*
-# *~
-# .vscode
+creds/*.json
+logs/*.csv
+__pycache__/*
+*~
+.vscode
